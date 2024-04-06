@@ -4,8 +4,11 @@ import colorama
 from colorama import *
 import sys
 import signal
+import webbrowser
+import platform
+import psutil
 
-"Funcion para poder reaccionar el ctr+c"
+# Funcion para detectar control + c
 def ctrlc(signal, frame):
     limpiar()
     logo()
@@ -15,6 +18,7 @@ def ctrlc(signal, frame):
 
 signal.signal(signal.SIGINT, ctrlc)
 
+# Funcion para salir de la aplicacion
 def salida():
     limpiar()
     logo()
@@ -23,6 +27,7 @@ def salida():
     limpiar()
     sys.exit()
 
+# Funcion para limpiar la consola
 def limpiar():
     if sys.platform == "linux":
         os.system("clear")
@@ -31,6 +36,7 @@ def limpiar():
     else: 
         os.system("cls || clear")
 
+# Funcion para cuando termina un proceso
 def terminado(funcion):
     termino = input(Fore.YELLOW+"El proceso termino que deseas hacer?"+ Fore.GREEN+"\n 1.- Volver al menu \n 2.- Repetir: \n 3.- Salir "+Fore.RESET)
     if termino == "1":
@@ -51,6 +57,7 @@ def terminado(funcion):
         time.sleep(2)    
         index()
 
+# Logos 
 def logo():
     print(f'''
   {Fore.RED}    ::::::::  {Fore.CYAN}    :::    :::  {Fore.MAGENTA}         :::  {Fore.GREEN}  :::::::::::{Fore.LIGHTCYAN_EX}       :::::::::       :::::::::: 
@@ -73,7 +80,7 @@ def logo2():
               """)
 def logo3():
     print(f"""
-              ¶¶_¶¶  ¶¶ ¶¶
+              ¶¶_¶¶  ¶¶ 
         ¶¶ ¶¶ ¶¶ ¶¶ ¶¶¶ 
      ¶¶¶¶¶            ¶¶¶¶¶¶¶ 
    ¶¶¶¶¶               ¶¶¶¶¶¶¶ 
@@ -84,27 +91,55 @@ def logo3():
   ¶¶     ¶¶¶      ¶¶        ¶¶¶¶¶¶¶ 
   ¶     ¶¶¶¶     ¶¶¶¶¶      ¶¶¶¶¶¶ ¶ 
   ¶    ¶¶¶¶¶    ¶¶¶¶¶¶¶¶    ¶¶¶¶¶¶  ¶ 
-  ¶¶  ¶¶¶¶¶______¶¶¶¶¶¶¶___¶¶¶¶¶¶¶   ¶ 
-   ¶  ¶¶¶__________¶¶¶¶___¶¶¶¶¶¶¶¶¶   ¶ 
-   ¶¶____________________¶¶¶¶¶¶¶¶¶¶   ¶¶¶ 
-   ¶¶¶_____¶¶¶¶¶¶_______¶¶¶¶¶¶¶¶¶¶¶   ¶¶¶¶ 
-   ¶¶¶¶¶___¶¶¶¶¶¶_____¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶¶¶¶ 
-   ¶¶¶¶¶¶¶_________¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶¶¶¶¶¶ 
-   ¶¶¶¶¶¶¶¶  ¶¶¶   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶ 
-____¶¶¶¶¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ 
-____¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶ 
-____¶¶¶¶¶¶¶¶¶_¶¶¶¶¶¶¶_¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶ 
-__¶¶¶¶¶¶¶¶¶¶¶_________¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶ 
-__¶¶¶¶¶¶¶¶¶¶_________¶¶¶¶¶¶¶¶¶¶¶ 
-___¶¶¶¶¶¶¶_________¶¶¶¶¶¶¶¶¶¶¶¶ 
-___________________¶¶¶¶¶¶¶¶¶¶¶ 
-___________________¶¶¶¶¶¶¶¶¶¶ 
+  ¶¶  ¶¶¶¶¶      ¶¶¶¶¶¶¶   ¶¶¶¶¶¶¶   ¶ 
+   ¶  ¶¶¶          ¶¶¶¶   ¶¶¶¶¶¶¶¶¶   ¶ 
+   ¶¶                    ¶¶¶¶¶¶¶¶¶¶   ¶¶¶ 
+   ¶¶¶     ¶¶¶¶¶¶       ¶¶¶¶¶¶¶¶¶¶¶   ¶¶¶¶ 
+   ¶¶¶¶¶   ¶¶¶¶¶¶     ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶¶¶¶ 
+   ¶¶¶¶¶¶¶         ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶¶¶¶¶¶¶ 
+   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶ 
+    ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ 
+    ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶ 
+    ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶ 
+  ¶¶¶¶¶¶¶¶¶¶¶         ¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶ 
+  ¶¶¶¶¶¶¶¶¶¶         ¶¶¶¶¶¶¶¶¶¶¶ 
+   ¶¶¶¶¶¶¶         ¶¶¶¶¶¶¶¶¶¶¶¶ 
+                   ¶¶¶¶¶¶¶¶¶¶¶ 
+                   ¶¶¶¶¶¶¶¶¶¶ 
+
+    """) 
+def logooso():
+    print(f"""
+              ██ █  ██ 
+        ██ ██ ██ ██ ███ 
+     █████            ███████ 
+   █████               ███████ 
+  █████                  █████ 
+  ████                     ███
+   ██                       ███ 
+   █                         ████ 
+  ██     ███      ██        ███████ 
+  █     ████     █████      ██████ █ 
+  █    █████    ████████    ██████  █ 
+  ██  █████      ███████   ███████   █ 
+   █  ███          ████   █████████   █ 
+   ██                    ██████████   ███ 
+   ███     ██████       ███████████   ████ 
+   █████   ██████     █████████████  ██████ 
+   ███████         ███████████████  ████████ 
+   ████████  ███   ███████████████ █████████ 
+    ████████████  ██████████████████████████ 
+    █████████████████████████████ ██████████ 
+    █████████ ███████ ███████████ ████████ 
+  ███████████         ███████████ █████ 
+  ██████████          ███████████ 
+   ███████         ████████████ 
+                   ███████████ 
+                   ███████████ 
 
     """)
-    
 
-
-
+# Menu de electricidad 
 def electricidad():
     limpiar()
     logo2()
@@ -188,7 +223,8 @@ def voltaje():
         print(f'Error al sacar el valor de la intensidad, volviendo...')
         time.sleep(2)
         terminado(voltaje)
- 
+
+# Funcion para poder aceptar solo numeros 
 def valores(cosa1, cosa2):
     while True:
         try:
@@ -206,14 +242,26 @@ Estas son las opciones que tengo{Fore.GREEN}
 ╔════════╦═══════════════╦════════════════════════════════════════════╗
 ║ Numero ║ Opciones      ║ Descripción                                ║
 ╠════════╬══════════════ ╬════════════════════════════════════════════╣
-║ 1      ║ Sistema       ║ Muestra algunas configuraciones de sistema ║
+║ 1      ║ Informacion   ║ Muestra alguna informacion de sistema      ║
 ║ 2      ║ IP            ║ Algunas configuraciones de IP              ║
 ║ 3      ║ CPU           ║ Alguna informacion del sistema             ║
 ║ 4      ║ Salir         ║ Salir de esta herramienta                  ║
 ╚════════╩═══════════════╩════════════════════════════════════════════╝
 {Fore.RESET}
 ''')
+    eleccion = input(f'Selecciona una opcion: ')
+    if eleccion == "1":
+        print(f'En un momento cargara la opcion')
+        time.sleep(2)
+        informacion()
+    elif eleccion == "2":
+        print(F'En un momento cargara la opcion... ')
+        time.sleep(2)
+        ip()
+    elif eleccion == "3":
+        print("En un momento cargara la opcio....")
 
+# Menu principal de la herramienta
 def index():
         limpiar()
         logo()
@@ -254,4 +302,177 @@ Estas son las opciones que tengo{Fore.GREEN}
             time.sleep(2)
             limpiar()
             index()
+def informacion():
+    limpiar()
+    print(f"""{Fore.GREEN}
+╔════════╦═══════════════╦════════════════════════════════════════════╗
+║ Numero ║ Opciones      ║ Descripción                                ║
+╠════════╬═══════════════╬════════════════════════════════════════════╣
+║ 1      ║ Informacion   ║ Muestra informacion basica de la maquina   ║
+║ 2      ║ Memeoria      ║ Muestra la memoria total y disponible      ║
+║ 3      ║ CPU           ║ Alguna informacion del sistema             ║
+║ 4      ║ Salir         ║ Salir de esta herramienta                  ║
+╚════════╩═══════════════╩════════════════════════════════════════════╝
+          {Fore.RESET}
+""")
+    elecciones3(infobasica, memoria, cpu)
+
+def infobasica():
+    plataforma = platform.uname()
+    limpiar()
+    print(Fore.LIGHTGREEN_EX)
+    print("<" + "=" * 40 + " Informacion Basica Del Sistema " + "=" * 40 + ">")
+    print("#")
+    print("# Sistema Operativo: ")
+    print(f"# {plataforma.system}")
+    print(f"#")
+    print(f"# Nombre del nodo: ")
+    print(f"# {plataforma.node}")
+    print(f"#")
+    print(f"# Libreria :")
+    print(f"# {plataforma.release}")
+    print(f"#")
+    print(f"# Version")
+    print(f"# {plataforma.version}")
+    print(f"#")
+    print(f"# Procesador")
+    print(f"# {plataforma.processor}")
+    print(f"#")
+    print(f"# Maquina")
+    print(f"# {plataforma.machine}")
+    print(Fore.RESET)
+    print("\n")
+    time.sleep(2)
+    terminado(infobasica)
+
+def cpu():
+    limpiar()
+    infobasica()
+    cpu = psutil.cpu_freq()
+    print(Fore.LIGHTGREEN_EX)
+    print("<" + "=" * 39 + " CPU Info " + "=" * 39 + ">")
+    print("#")
+    print(f"# Procesadores Logicos")
+    print("#")
+    print(f"# Nucleos Fisicos")
+    print(f"# {psutil.cpu_count(logical= False)}")
+    print(f"#")
+    print(f"# Nucleos Totales")
+    print(f"# {psutil.cpu_count(logical=True)}")
+    print(f"#")
+    print("# Maxima Frecuencia del CPU")
+    print(f"# {cpu.max: .2f}Mhz")
+    print("#")
+    print("# Minima Frecuencia del CPU")
+    print(f"# {cpu.min: .2f}Mhz")
+    print("#")
+    print("# Frecuencia Actual")
+    print(f"# {cpu.current: .2f}Mhz")
+    print("#")
+    print(Fore.RESET)
+
+def memoria():
+    limpiar()
+    memory = psutil.virtual_memory()
+    disponible = memory.total
+    print(f"{Fore.LIGHTGREEN_EX}")
+    print("<" + "=" * 39 + " Memory Info " + "=" * 39 + ">")
+    print("#")
+    print("# Total ")
+    print(f"# {memory.total :,}")
+    print("# Disponible")
+    print(f"# {disponible :,}")
+    print("#")
+    print("# ")
+    terminado(memoria)
+
+def ip():
+    limpiar()
+    logo()
+    ip1 = input(Fore.YELLOW+"Introduce una ip: "+Fore.RESET)
+    time.sleep(2)
+    print(f'''
+{Fore.GREEN} Estas son las opciones que tengo para ver la informacion de una ip
+          {Fore.CYAN}
+┌──────────────────────────────────┬───────────────────────┬───────────┐
+│          1.-CheckHost            │   2.-Infobyip         │    3      │
+├──────────────────────────────────┼───────────────────────┼───────────│
+│  Muestra localización            │  Muestra localización │  Todas    │
+│  proveedor, rango, código postal │       proveedor       │   las     │
+│  organización y horario          │      código postal    │ anteriores│
+└──────────────────────────────────┴───────────────────────┴───────────┘
+          {Fore.RESET}''')
+    x = input(Fore.RED+"Selecciona una opcion: "+Fore.RESET)
+    if x == "1":
+        print(Fore.GREEN+"En un momento se abrira en tu naegador la pagina"+Fore.RESET)
+        webbrowser.open(f'https://check-host.net/ip-info?host={ip1}')
+        time.sleep(3)
+        terminado(ip)
+    elif x == "2":
+        print(Fore.GREEN+"En un momento se abrira en tu navegador la pagina"+Fore.RESET)
+        webbrowser.open(f'https://es.infobyip.com/ip-{ip1}.html')
+        time.sleep(3)
+        terminado(ip)
+    elif x == "3":
+        print(Fore.GREEN+"En un momento se abriran en tu navegador las paginas"+Fore.RESET)
+        webbrowser.open(f'https://check-host.net/ip-info?host={ip1}')   
+        webbrowser.open(f'https://es.infobyip.com/ip-{ip1}.html')
+        time.sleep(3)
+        terminado(ip)
+
+def elecciones3(f1, f2, f3):
+    eleccion = input(f'Selecciona una opcion: ')
+    if eleccion == "1":
+        print(f'En un momento cargara la opcion')
+        time.sleep(2)
+        f1()
+    elif eleccion == "2":
+        print(F'En un momento cargara la opcion... ')
+        time.sleep(2)
+        f2()
+    elif eleccion == "3":
+        print("En un momento cargara la opcion....")
+        time.sleep(2)
+        f3()
+    elif eleccion == "4":
+        print("Saliendo...")
+        time.sleep(2)
+        limpiar()
+        salida()
+    else:
+        print("Opcion no valida, volviendo al menu...")
+        time.sleep(2)
+        limpiar()
+        index()
+
+def elecciones4(f1, f2, f3, f4):
+    eleccion = input(f'Selecciona una opcion: ')
+    if eleccion == "1":
+        print(f'En un momento cargara la opcion')
+        time.sleep(2)
+        f1()
+    elif eleccion == "2":
+        print(F'En un momento cargara la opcion... ')
+        time.sleep(2)
+        f2()
+    elif eleccion == "3":
+        print("En un momento cargara la opcion....")
+        time.sleep(2)
+        f3()
+    elif eleccion == "4":
+        print("En un momento cargara la opcion....")
+        time.sleep(2)
+        f4()    
+    elif eleccion == "5":
+        print("Saliendo...")
+        time.sleep(2)
+        limpiar()
+        salida()
+    else:
+        print("Opcion no valida, volviendo al menu...")
+        time.sleep(2)
+        limpiar()
+        index()
+
+# Iniciamos con el menu principal
 index()
